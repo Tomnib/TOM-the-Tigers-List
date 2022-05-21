@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<style>
+    h1 {text-align: center;}
+    h3 {outline: #A0A0A0 dashed 2px;}
+</style>
+<html>
+    <body>
+        <pre></pre>
+        <header>
+            <h1> <%= @ad.title %> </h1>
+        </header>
+
+        <section>
+        <div class= "row">
+            <div class= "column">
+                <% if @ad.images[0] != nil %>
+                    <p><%= image_tag @ad.images[0], size: "450x400", class: "big-img" %></p>
+                <% else %>
+                    <p><%= image_tag "empty.png", size: "450x400", class: "big-img" %></p>
+                <% end %>
+            </div>
+        </div>
+        <div class= "row">
+            <div class= "column">
+                <% if @ad.images[1] != nil %>
+                    <p><%= image_tag @ad.images[1], size: "150x100", class: "small-img"  %></p>
+                <% else %>
+                    <p><%= image_tag "empty.png", size: "150x100", class: "small-img"  %></p>
+                <% end %>
+            </div>
+            <div class= "column">
+                <% if @ad.images[2] != nil %>
+                    <p><%= image_tag @ad.images[2], size: "150x100", class: "small-img" %></p>
+                <% else %>
+                    <p><%= image_tag "empty.png", size: "150x100", class: "small-img"  %></p>
+                <% end %>
+            </div>
+            <div class= "column">
+                <% if @ad.images[3] != nil %>
+                    <p><%= image_tag @ad.images[3], size: "150x100", class: "small-img" %></p>
+                <% else %>
+                    <p><%= image_tag "empty.png", size: "150x100", class: "small-img"  %></p>
+                <% end %>
+            </div>
+        </div>
+        </section>
+        <pre>
+        
+        </pre>
+        <aside>
+            
+            <a href= "<%= user_url(@ad.user) %>">
+                <h2 class= "basic-button"><b>Seller:</b> <%= @ad.user.first_name %> <%= @ad.user.last_name %></h2>
+            </a>
+            
+
+            
+            <!-- White Space so that succeding buttons are somewhat centered with image -->
+            <pre>
+
+
+
+
+
+
+
+            </pre> 
+            <!-- restricting these buttons and actions to logged in users -->
+            <% if current_user %>
+            <!-- message seller -->
+                <% if @ad.user != current_user%>
+                    <%= link_to 'Message seller', new_conversation_path(current_user), class: 'blue-box-button'  %>
+                <% end %>
+                <pre></pre>
+
+
+                <!-- favoriting actions -->
+
+                <% if @ad.user != current_user%>
+                    <%- unless current_user.favorite_ads.exists?(id: @ad.id) -%>
+                        <%= link_to 'Add to favorites', favorite_ads_path(ad_id: @ad), method: :post, class: 'yellow-box-button'  %>
+                    <%- else -%>
+                        <%= link_to 'Remove from favorites', favorite_ad_path(@ad), method: :delete, class: 'yellow-box-button' %>
+                    <%- end -%>
+                <% end %>    
+            
+                <!-- purchasing actions -->
+                <pre></pre>
+                <% if @ad.user != current_user%>
+                    <a href= "<%= purchase_item_path(@category, @ad)%>">
+                        <p class= "green-box-button"style= "text-align: left;">Purchase Item</p>
+                    </a>
+                <% end %>
+                <br>
+
+                <!-- edit actions -->
+
+                <% if @ad.user == current_user %>
+                    <p>Hey, <%= @ad.user.first_name%>! Would you like to edit your Ad? </p>
+                    <a href= "<%=  edit_ad_path(@category, @ad)%>", style= "text-align: right;">
+                                <p class= "basic-button", style= "text-align: right;">Edit<p>
+                            </a>
+                <% end %>
+
+            <!-- if no user logged in -->
+            <% else %>
+                <h2><%= link_to "REGISTER", new_user_path, class: "basic-button" %> or <%= link_to 'SIGN IN', new_user_session_path, class: "basic-button" %>
+                <br>to buy items or list items for sale on TOM's List!</h2>
+            <% end %>
+        </aside>
+
+        <section>
+        <h2>Details</h2>
+            <div class= "row">
+                <div class= "column">
+                    <p class= "ad-text-container">
+                       - Price: $<%= '%.2f' % @ad.price%>
+                         <br>
+                       - Contact: <%= @ad.email %>
+                       <br>
+                       - Location: <%= @ad.city %>, <%= @ad.state %>
+                       <br>
+                       - Date Added: <%= @ad.created_at.strftime("%m/%d/%Y") %>
+                    </p>
+                    
+                    <form>
+                        <input type="button" value="< Back" onclick="history.back()">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <aside>
+            <h2>Description</h2>
+            <p class= "ad-description-container">
+                <%= @ad.description %>
+            </p>
+        </aside>
+
+      
+      </body>
+</html>
+
+
+
+
+
+
+ 

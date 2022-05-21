@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<style>
+    a { text-decoration: none; 
+        color: black; 
+    }
+    a:hover { text-decoration: none; 
+              color:white; 
+    }
+</style>
+<br>
+<table class= "table table-hover">
+    <tbody>
+        <% @categories.each do |category|%>
+            <tr>
+                <td>
+                    <a href= "<%= category_url(category)%>"><%= image_tag category.image, size: "400x300", class: "category-img"%></a>
+                </td>
+                <td>
+                    <pre>
+
+
+
+
+                    </pre>
+                    <a href= "<%= category_url(category)%>"><p style= "text-align: center;">
+                        <h4 class="category-title"><%= category.title %></h4>
+                        <%= category.description %>
+                    </p></a>
+                   
+                </td>
+        </a>
+        <% end %>
+    </tbody>
+</table>

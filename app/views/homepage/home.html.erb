@@ -1,0 +1,84 @@
+<html>
+<body>
+ <pre></pre>
+<div class="header">
+    <strong><b>Welcome to TOM the Tiger's List!</b></strong>
+</div>
+<center><h3>~ THE #1 peer-to-peer source for imaginary car parts on your localhost! ~</h3></center>
+ <pre></pre>
+<b>View by: <%= link_to "ALL", home_path %> | <%= link_to "CATEGORIES", categories_path %> </b>
+<br>
+<div class = "row">
+<div class="column side">
+  <table class="table">
+   
+    <thead class="column-head-blue">
+    <th>Categories</th>
+    </thead>
+   
+        <tbody>
+ 
+        <% @category.each do |c| %>
+          <tr>
+            <td><b><%= link_to c.title, category_path(c) %></b></td>
+            <td class="text-nowrap">
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+  </div>
+ 
+  <div class="column middle">
+    <header>
+    <div class="column-head-blue"><h1><b><center>AD LISTINGS</center></b></h1></div>
+    </header>
+    <pre></pre>
+    <body>        
+        <% @ad.each do |ad| %>
+          <% if ad.status == "active" %>
+            <% if ad.images.attached? %>
+              <a href= "<%= ad_path(ad.category, ad) %>"><p class="ad-button">
+                <%= image_tag ad.images[0], width: "150", height: "125" %>
+                <br>
+                 <b><%= ad.title %></b>
+                 <br>
+                 <%= ad.created_at.strftime("%m/%d/%Y")%>
+                </p> </a>
+          <% else %>
+            <a href= "<%= ad_path(ad.category, ad) %>"><p class="ad-button">
+            <%= image_tag "no_image.jpg", width: "150", height: "125" %>
+            <br>
+            <b><%= ad.title %></b>
+            <br>
+            <%= ad.created_at.strftime("%m/%d/%Y")%>
+            </p> </a>
+          <% end %>
+          <% end %>
+        <% end %>
+      </body>
+  </div>
+ 
+ 
+  <div class="column side">
+      <!-- <h2>Post an Ad or Register</h2> -->
+      <!-- display register button only if registered user is not logged in -->
+      <% if !current_user %>
+        <h2>To post or buy ads, please</h2>
+        <p><%= link_to "register here", new_user_path, class: "basic-button basic-button:hover" %></p>
+      <% end %>
+
+      <!-- display post ad button only if registered user not logged in -->
+      <% if current_user %>
+      <h2>Want to sell your stuff? </h2>
+      <p><%= link_to "Post an Ad", new_ad_url(@category.find(1)), class: "basic-button basic-button:hover" %></p>
+      <% end %> 
+  </div>
+
+</div>
+</div>
+ 
+</body>
+</html>
+
+ 

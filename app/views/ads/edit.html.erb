@@ -1,0 +1,53 @@
+<style>
+h1 {text-align: center; }
+h3 {outline: #A0A0A0 dashed 2px;}
+</style>
+<h1>Edit Ad: <%= @ad.title %></h1>
+<h2>Current Images</h2>
+
+<%= bootstrap_form_with model: @ad, method: :patch, url: ad_path(@category, @ad), local: true do |f| %>
+<div class = "form-row">
+        <% (0...@ad.images.count).each do |image| %>
+            <div class="img">
+                <%= image_tag @ad.images[image], style: "width:100%; height: auto" %>
+            </div>
+        <% end %>
+</div>
+<br>
+<h3></h3>
+
+<div class = "form-row">
+    <div class = "column">
+        
+        <%= f.file_field :images, multiple: true, label: "Main Image" %>
+        <%= f.file_field :images, multiple: true, label: "Extra Image" %>
+        <%= f.file_field :images, multiple: true, label: "Extra Image" %>
+        <%= f.file_field :images, multiple: true, label: "Extra Image" %>   
+        <%= f.text_field :title%>
+        <%= f.number_field(:price, :step => "0.01") %>
+        <%= f.collection_select(:category_id, Category.all, :id, :title) %>
+        <%= f.text_area :description %>
+
+    </div>
+
+   <div class = "column offset-md-3"> 
+
+        <%= f.text_field :email %>
+        <%= f.text_field :phone %>
+        <%= f.text_field :addr%>
+        <%= f.text_field :city %>
+        <%= f.text_field :state %>
+        <%= f.text_field :zip %>
+
+    </div>
+
+    <div class = "form-column"> 
+        <%= f.submit %>
+        <%= link_to "Delete", ad_path(@category, @ad), method: :delete, class: "btn btn-danger" %>
+    </div>
+</div>
+<% end %>
+<br>
+<form>
+    <input type="button" value="< Back" onclick="history.back()">
+</form>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<style>
+    h4 {
+        color: black;
+        font-family: Garamond, serif;
+    }
+</style>
+    <body>
+        <header>
+            <h1>Here are My Listings</h1>
+        </header>
+        
+        <!-- Active/unsold ads --> 
+        <h4>Items I'm selling</h4>
+        <div class= "active-ads-container">
+            <div class= "row">
+                <div class= "column">
+                    <% @ads.each do |ad| %>
+                        <% if ad.status == "active" %>
+                            <% if ad.images.attached? %>
+                                <p class="single-ad">
+                                    <%= image_tag ad.images[0], width: "250", height: "200" %>
+                                    <br>
+                                    <%= ad.title %>
+                                    <br>
+                                    <%= link_to "Edit", edit_ad_path(ad.category, ad), class: "basic-button"%>
+                                    <%= link_to "View", ad_path(ad.category, ad), class: "basic-button"%>
+                                </p> 
+                                
+                            <% else %>
+                                <p class="single-ad">
+                                    <%= image_tag "no_image.jpg", width: "250", height: "200" %>
+                                    <br>
+                                    <%= ad.title %>
+                                    <br>
+                                    <%= link_to "Edit", edit_ad_path(ad.category, ad), class: "basic-button"%>
+                                    <%= link_to "View", ad_path(ad.category, ad), class: "basic-button"%>
+                                </p>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- Sold ads authored by current user -->
+        <br>
+        <h4>Items I've sold</h4>
+        <div class= "sold-ads-container">
+            <div class= "row">
+                <div class= "column">
+                    <% @ads.each do |ad| %>
+                        <% if ad.status == "SOLD" %>
+                            <% if ad.images.attached? %>
+                                <p class="single-ad">
+                                    <a href= "<%= ad_path(ad.category, ad) %>"><p class="ad-button">
+                                    <%= image_tag ad.images[0], width: "250", height: "200" %>
+                                    <br>
+                                    <%= ad.title %> </a>
+                                    <br>
+                                    <%= link_to "Purchased by " + ad.purchase.user.first_name, user_path(ad.purchase.user) %> </p>
+                                </p>
+                            <% else %>
+                               
+                                <a href= "<%= ad_path(ad.category, ad) %>"><p class="ad-button">
+                                    <%= image_tag "no_image.jpg", width: "250", height: "200" %>
+                                    <br>
+                                    <%= ad.title %>
+                                    <br>
+                                    <%= link_to "Purchased by " + ad.purchase.user.first_name, user_path(ad.purchase.user) %> </p></a>
+                                
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ads bought by current user -->
+        <br>
+        <h4>Items I've bought</h4>
+        <div class= "bought-ads-container">
+            <div class= "row">
+                <div class= "column">
+                    <% @bought.each do |b| %>
+                        <% if b.purchaser == current_user[:id] %>
+                            <% if b.images.attached? %>
+                                
+                                    <a href= "<%= ad_path(b.category, b) %>"><p class="ad-button">
+                                    <%= image_tag b.images[0], width: "250", height: "200" %>
+                                    <br>
+                                    <%= b.title %> </a>
+                                    <br>
+                                    <%= link_to "Purchased by " + b.purchase.user.first_name, user_path(b.purchase.user) %> </p>
+                                
+                            <% else %>
+                                <a href= "<%= ad_path(b.category, b) %>"><p class="ad-button">
+                                    <%= image_tag "no_image.jpg", width: "250", height: "200" %>
+                                    <br>
+                                    <%= b.title %>
+                                    <br>
+                                    <%= link_to "Sold by " + b.user.first_name, user_path(b.user) %></a>
+                                    <br>
+                                  </p>  
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        
+
+    <form>
+        <input type="button" value="< Back" onclick="history.back()">
+    </form>
+    </body>
+</html>
+
