@@ -6,3 +6,5 @@ There are two seeded users. If you would like to sign in as one of them, the inf
 
 User 1 - email: bboy@email.com, password: password
 User 2 - email: atoz@email.com, password: password
+
+This is a public post of a team project.
